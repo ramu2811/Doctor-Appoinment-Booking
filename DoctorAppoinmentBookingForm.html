@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctor Appointment Booking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Book Your Doctor Appointment</h2>
+  <form id="appointmentForm">
+    <label for="doctor">Select Doctor</label>
+    <select id="doctor" name="doctor" required>
+      <option value="">--Select--</option>
+      <option value="Dr. Rao">Dr. Rao</option>
+      <option value="Dr. Sharma">Dr. Sharma</option>
+      <option value="Dr. Patel">Dr. Patel</option>
+    </select>
+
+    <label for="date">Appointment Date</label>
+    <input type="date" id="date" name="date" required />
+
+    <label for="time">Time Slot</label>
+    <select id="time" name="timeSlot" required>
+      <option value="">--Select--</option>
+      <option value="10:00 AM">10:00 AM</option>
+      <option value="11:00 AM">11:00 AM</option>
+      <option value="2:00 PM">2:00 PM</option>
+    </select>
+
+    <label for="name">Your Name</label>
+    <input type="text" id="name" name="patientName" required />
+
+    <label for="contact">Contact Info</label>
+    <input type="text" id="contact" name="contact" required />
+
+    <label for="symptoms">Symptoms (optional)</label>
+    <textarea id="symptoms" name="symptoms" rows="3"></textarea>
+
+    <button type="submit">Book Appointment</button>
+  </form>
+
+  <script>
+    document.getElementById("appointmentForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const data = {
+        doctor: document.getElementById("doctor").value,
+        date: document.getElementById("date").value,
+        timeSlot: document.getElementById("time").value,
+        patientName: document.getElementById("name").value,
+        contact: document.getElementById("contact").value,
+        symptoms: document.getElementById("symptoms").value
+      };
+
+      // Example: POST to your backend API
+      fetch("http://localhost:8080/my-app", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(result => {
+        alert("Appointment Booked Successfully!");
+        document.getElementById("appointmentForm").reset();
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Failed to book appointment.");
+      });
+    });
+  </script>
+</body>
+</html>
